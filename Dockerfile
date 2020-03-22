@@ -17,8 +17,8 @@ ENV AWS_REGION=${AWS_REGION}
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
-COPY . /srv/dorado
-WORKDIR /srv/dorado
+COPY . /srv/FastAPI
+WORKDIR /srv/FastAPI
 RUN pip install -r requirements.txt
 EXPOSE 5050
 CMD uvicorn api:app --host 0.0.0.0 --port 5050
