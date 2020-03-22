@@ -20,5 +20,5 @@ ENV LANG C.UTF-8
 COPY . /srv/dorado
 WORKDIR /srv/dorado
 RUN pip install -r requirements.txt
-EXPOSE 8000
-CMD uvicorn api:app --host 0.0.0.0 --port 8000
+EXPOSE 5050
+CMD uvicorn api:app --host 0.0.0.0 --port 5050

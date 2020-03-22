@@ -21,4 +21,7 @@ Read only docs
 http://0.0.0.0:5050/redoc
 ```
 
-For running for server
+To provide environment and AWS credential explicitly use Dockerfile.
+```
+Path : ./Dockerfile
+```
