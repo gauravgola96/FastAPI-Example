@@ -20,7 +20,7 @@ env_path = f"{PROJECT_BASE_DIR}/config_env/{env_file_name_dict[env]}"
 
 logger = logging.getLogger(__name__)
 
-logger.info("env_path :{}".format(env_path))
+logger.info(f"env_path :{env_path}")
 
 load_dotenv(dotenv_path=env_path, override=True)
 
