@@ -1,2 +1,2 @@
 # FastAPI
-API to upload to s3 Asynchronously
+API for uploading object to s3 Asynchronously
