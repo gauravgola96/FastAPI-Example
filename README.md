@@ -1,5 +1,5 @@
 # FastAPI
-API for uploading object to S3 bucket asynchronously
+API for uploading object(.png) to S3 bucket asynchronously
 
 Put your AWS Credentials 
 ```
