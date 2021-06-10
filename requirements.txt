@@ -1,5 +1,5 @@
 aiobotocore==0.12.0
-fastapi==0.52.0
+fastapi==0.65.2
 uvicorn==0.11.7
 python-dateutil==2.8.1
 python-dotenv==0.12.0
