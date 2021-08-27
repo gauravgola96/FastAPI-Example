@@ -6,29 +6,19 @@ from fastapi.exceptions import HTTPException
 from fastapi.param_functions import File, Body
 from s3_events.s3_utils import S3_SERVICE
 from utils.utils import *
+from dotenv import load_dotenv
+import datetime
 
 
-env = os.getenv('ENV', 'dev')
-env_file_name_dict = {
-    "dev": ".dev.env",
-}
-
+load_dotenv()
 project_name = "FastAPI"
-path_list = os.getcwd().split('/')
-PROJECT_BASE_DIR = '/'.join(path_list[:path_list.index(project_name) + 1])
-env_path = f"{PROJECT_BASE_DIR}/config_env/{env_file_name_dict[env]}"
 
-logger = logging.getLogger(__name__)
 
-logger.info(f"env_path :{env_path}")
-
-load_dotenv(dotenv_path=env_path, override=True)
-
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_REGION = os.getenv("AWS_REGION")
-S3_Bucket = os.getenv("S3_Bucket")
-S3_Key = os.getenv("S3_Key")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.environ.get("AWS_REGION")
+S3_Bucket = os.environ.get("S3_Bucket")
+S3_Key = os.environ.get("S3_Key")
 
 app = FastAPI(title="FastAPI")
 
@@ -42,13 +32,16 @@ async def ping():
 
 
 @app.post("/upload", status_code=200, description="***** Upload png asset to S3 *****")
-async def upload(fileobject: UploadFile = File(...), filename: str = Body(default=None)):
-    if filename is None:
-        filename = generate_png_string()
+async def upload(fileobject: UploadFile = File(...)):
+    filename = fileobject.filename
+    current_time = datetime.datetime.now()
+    split_file_name = os.path.splitext(filename)   #split the file name into two different path (string + extention)
+    file_name_unique = str(current_time.timestamp()).replace('.','')  #for realtime application you must have genertae unique name for the file
+    file_extension = split_file_name[1]  #file extention
     data = fileobject.file._file  # Converting tempfile.SpooledTemporaryFile to io.BytesIO
-    uploads3 = await s3_client.upload_fileobj(bucket=S3_Bucket, key=S3_Key + filename, fileobject=data)
+    uploads3 = await s3_client.upload_fileobj(bucket=S3_Bucket, key=S3_Key + file_name_unique+  file_extension, fileobject=data)
     if uploads3:
-        s3_url = f"https://{S3_Bucket}.s3.{AWS_REGION}.amazonaws.com/{S3_Key}{filename}"
-        doc = [{"image_url": s3_url}]
+        s3_url = f"https://{S3_Bucket}.s3.{AWS_REGION}.amazonaws.com/{S3_Key}{file_name_unique +  file_extension}"
+        return {"status": "success", "image_url": s3_url}  #response added 
     else:
         raise HTTPException(status_code=400, detail="Failed to upload in S3")

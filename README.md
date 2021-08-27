@@ -1,10 +1,21 @@
 # FastAPI
 API for uploading object(.png) to S3 bucket asynchronously
 
-Put your AWS Credentials 
+Create a file .env and put all aws credential here
 ```
-./config_env/.dev.env
+.env
 ```
+aws credentials 
+
+```
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION = 
+S3_Bucket = 
+S3_Key = 
+
+```
+
 
 Run Server Locally (development environment)
 ```
