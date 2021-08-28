@@ -32,6 +32,13 @@ jobs:
         envkey_S3_Key: ${{ secrets.S3_Key}}
         file_name: .env
 
+      run: |
+        cat .env
+
+
+
+
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
