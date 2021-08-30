@@ -6,14 +6,11 @@ on:
   pull_request:
     branches: [ develop ]
 
-  workflow_dispatch:
-     branches: [ develop ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 
@@ -31,12 +28,6 @@ jobs:
         envkey_S3_Bucket: ${{ secrets.S3_Bucket}}
         envkey_S3_Key: ${{ secrets.S3_Key}}
         file_name: .env
-
-      run: |
-        cat .env
-
-
-
 
 
     - name: Install dependencies
